@@ -1,32 +1,41 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<div id="app">
+
+  <keep-alive>
+    <router-view></router-view>
+  </keep-alive>
+
+  <tab-bar></tab-bar>
+
+  <transition :enter-active-class="hasAnimate?'slideInDown':''" leave-active-class="slideOutDown">
+    <component v-if="showCom" :is="comName"/>
+  </transition>
+
+</div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import TabBar from './components/tab-bar'
+import Login from './pages/mine/login/login'
+import Regiester from './pages/mine/regiester/regiester'
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  components: {
+    [TabBar.name]: TabBar,
+    Login,
+    Regiester
+  },
+  data(){
+    return {
+      showCom: false,
+      comName: 'Login',
+      hasAnimate: true
     }
-  }
+  },
+
 }
+</script>
+
+<style>
+
 </style>
