@@ -11,8 +11,11 @@ export const requestHomeContent = async ()=>{
 
 
 export const requestHomeDetail = async (goodsId)=>{
-  const result = await Http.get(api.HOME_DETAIL, {id: goodsId});
-  console.log(result);
+  const {data} = await Http.get(api.HOME_DETAIL, {id: 2229878});
+  // campaignEntryText
+  let res = data.indexOf('campaignEntryText')
+  res = data.substring(res - 2,data.length - 15);
+  console.log(JSON.parse(res));
 
 }
 

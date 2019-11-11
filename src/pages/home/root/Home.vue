@@ -1,7 +1,43 @@
 <template>
 <div>
   <div class="page" id="home" @click="goDetail">
-  home
+    <app-scroll class="scroll">
+      <ul>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li><li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li><li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li><li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+        <li>hhhhhh</li>
+      </ul>
+    </app-scroll>
+
   </div>
 
     <!-- 子页面 -->
@@ -13,7 +49,7 @@
 
 <script>
 // import {requestHomeContent} from '../../../services/home'
-import {requestHomeDetail} from '../../../services/home'
+// import {requestHomeDetail} from '../../../services/home'
 
 export default {
   methods:{
@@ -22,12 +58,17 @@ export default {
     }
   },
   created(){
-    requestHomeDetail()
+    // requestHomeDetail()
   }
   
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.scroll{
+  position: absolute;
+  top: 0;
+  bottom: 49px
+}
 
 </style>
