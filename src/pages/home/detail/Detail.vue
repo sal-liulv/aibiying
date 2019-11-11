@@ -1,5 +1,6 @@
 <template>
 <div class="page subpage" id="detail">
+  <app-header />
 detail
 </div>
 </template>

@@ -12,7 +12,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      // required: true
     },
     hasBack: {
       type: Boolean,

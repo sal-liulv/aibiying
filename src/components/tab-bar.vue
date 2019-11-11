@@ -38,7 +38,7 @@ export default {
     flex: 1;
     text-align: center;
     .icon{
-      font-size: 24px;
+      font-size: 20px;
       margin-bottom: 5px;
     }
     .title{

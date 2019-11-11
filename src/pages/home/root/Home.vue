@@ -12,12 +12,19 @@
 </template>
 
 <script>
+// import {requestHomeContent} from '../../../services/home'
+import {requestHomeDetail} from '../../../services/home'
+
 export default {
   methods:{
     goDetail(){
       this.$router.push(`/home/detail/23`)
     }
+  },
+  created(){
+    requestHomeDetail()
   }
+  
 }
 </script>
 
