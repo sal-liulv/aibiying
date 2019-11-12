@@ -1,43 +1,14 @@
 <template>
 <div>
-  <div class="page" id="home" @click="goDetail">
+  <div class="page" id="home" @click="test" >
+    
     <app-scroll class="scroll">
-      <ul>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li><li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li><li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li><li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-        <li>hhhhhh</li>
-      </ul>
+      <banner />
+      <search />
+      <rooms v-for="(items,index) in homeContent" :key="index" :data="items"/>
+      
+      
     </app-scroll>
-
   </div>
 
     <!-- 子页面 -->
@@ -48,18 +19,43 @@
 </template>
 
 <script>
-// import {requestHomeContent} from '../../../services/home'
-// import {requestHomeDetail} from '../../../services/home'
+import banner from './children/banner'
+import search from './children/search'
+import rooms from './children/rooms'
+import {mapState} from 'vuex'
+import { log } from 'util'
 
 export default {
-  methods:{
-    goDetail(){
-      this.$router.push(`/home/detail/23`)
+  components:{
+    banner,
+    search,
+    rooms,
+  },
+  data(){
+    return{
+
     }
   },
+  computed: {
+    ...mapState({
+      homeContent: state=>state.home.homeContent,
+      homeDetail: state=>state.home.homeDetail,
+      isLoading: state=>state.home.isLoading
+    })
+  },
   created(){
-    // requestHomeDetail()
-  }
+    // 请求初始化数据
+    // 显示loading
+    this.$store.dispatch('home/requestHomeContent');
+    // 关闭loading
+
+  },
+   methods:{
+     test(){
+       console.log(this.homeContent);
+     }
+
+  },
   
 }
 </script>
@@ -67,8 +63,10 @@ export default {
 <style scoped lang="scss">
 .scroll{
   position: absolute;
+  width: 100%;
   top: 0;
-  bottom: 49px
+  bottom: 0;
+
 }
 
 </style>

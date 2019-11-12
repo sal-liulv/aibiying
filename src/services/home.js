@@ -19,6 +19,9 @@ export const requestHomeDetail = async (goodsId)=>{
 
 }
 
+
+
+
 export default {
   requestHomeContent,
   requestHomeDetail
