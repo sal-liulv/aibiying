@@ -1,4 +1,4 @@
-html,body,#app{
+html,body, #app{
   width: 100%;
   height: 100%;
 }
@@ -89,6 +89,12 @@ html,body,#app{
 .slideInDown,
 .slideOutDown {
   animation-duration: 200ms;
+}
+
+.page-wrap{
+  width: 100%;
+  height: 100%;
+  background: #fff;
 }
 
 .page {

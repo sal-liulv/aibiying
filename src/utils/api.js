@@ -1,17 +1,17 @@
 // 管理api
-export const HOST = 'http://www.littleemmayang.com:8000';
+// export const HOST = 'http://www.littleemmayang.com:8000';
 
 /*
-商品列表接口
+首页列表接口
 参数：id
 */
-const GOODS_LIST_API = '/api/home/catelist/itemlist';
+const HOME_LIST = '/api/home/content';
 
 /*
-商品详情接口
+房间详情接口
 参数：id
 */
-const GOODS_DETAIL_API = '/api/item/detail';
+const HOME_DETAIL = '/api/home/detail';
 
 /*
 登录接口
@@ -21,7 +21,6 @@ post
 const LOGIN_API = '/api/user/login';
 
 export default {
-  GOODS_LIST_API,
-  GOODS_DETAIL_API,
-  LOGIN_API
+  HOME_LIST,
+  HOME_DETAIL
 }

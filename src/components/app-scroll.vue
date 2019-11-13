@@ -10,11 +10,13 @@
 import BScroll from 'better-scroll'
 export default {
   name: 'app-scroll',
+  props:['scrollX'],
   mounted(){
     // 创建滚动视图
     this.scroll = new BScroll(this.$refs.scroll, {
       tap: true,
-      click: true
+      click: true,
+      scrollX:this.scrollX,
     });
     // 如果需要滚动，先刷新滚动视图，就可以在可滚动范围内滚动
     this.scroll.on('beforeScrollStart', ()=>{
@@ -24,7 +26,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .app-scroll{
   overflow: hidden;
 }

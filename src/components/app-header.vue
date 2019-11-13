@@ -9,6 +9,10 @@
 export default {
   name: 'app-header',
   props: {
+    title: {
+      type: String,
+      // required: true
+    },
     hasBack: {
       type: Boolean,
       default: false

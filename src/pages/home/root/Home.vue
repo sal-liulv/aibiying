@@ -1,7 +1,12 @@
 <template>
-<div>
-  <div class="page" id="home" @click="goDetail">
-  home
+<div class="page-wrap">
+  <div class="page" id="home" @click="test" >
+    
+    <app-scroll class="scroll">
+      <banner />
+      <search />
+      <rooms v-for="(items,index) in homeContent" :key="index" :data="items"/>
+    </app-scroll>
   </div>
 
     <!-- 子页面 -->
@@ -12,15 +17,53 @@
 </template>
 
 <script>
+import banner from './children/banner'
+import search from './children/search'
+import rooms from './children/rooms'
+import {mapState} from 'vuex'
+import { log } from 'util'
+
 export default {
-  methods:{
-    goDetail(){
-      this.$router.push(`/home/detail/23`)
+  components:{
+    banner,
+    search,
+    rooms,
+  },
+  data(){
+    return{
+
     }
-  }
+  },
+  computed: {
+    ...mapState({
+      homeContent: state=>state.home.homeContent,
+      isLoading: state=>state.home.isLoading
+    })
+  },
+  created(){
+    // 请求初始化数据
+    // 显示loading
+    this.$store.dispatch('home/requestHomeContent');
+    // 关闭loading
+
+  },
+   methods:{
+     test(){
+      //  console.log(this.homeContent);
+     }
+
+  },
+  
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.scroll{
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+
+}
 
 </style>
