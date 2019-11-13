@@ -13,6 +13,13 @@ const HOME_LIST = '/api/home/content';
 */
 const HOME_DETAIL = '/api/home/detail';
 
+/*
+登录接口
+post
+参数：id
+*/
+const LOGIN_API = '/api/user/login';
+
 export default {
   HOME_LIST,
   HOME_DETAIL
