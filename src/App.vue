@@ -17,13 +17,11 @@
 <script>
 import TabBar from './components/tab-bar'
 import Login from './pages/mine/login/login'
-import Regiester from './pages/mine/regiester/regiester'
 
 export default {
   components: {
     [TabBar.name]: TabBar,
     Login,
-    Regiester
   },
   data(){
     return {
@@ -32,6 +30,18 @@ export default {
       hasAnimate: true
     }
   },
+  created(){
+    //监听展示登录组件
+    this.$center.$on('toggleLogin',(value)=>{
+      if(this.showCom&&value){
+        this.hasAnimate = false;
+      }else{
+        this.hasAnimate = true;
+      }
+      this.showCom = value;
+      this.comName = 'Login';
+    })
+  }
 
 }
 </script>
