@@ -1,13 +1,11 @@
 <template>
-<div>
+<div class="page-wrap">
   <div class="page" id="home" @click="test" >
     
     <app-scroll class="scroll">
       <banner />
       <search />
       <rooms v-for="(items,index) in homeContent" :key="index" :data="items"/>
-      
-      
     </app-scroll>
   </div>
 
@@ -39,7 +37,6 @@ export default {
   computed: {
     ...mapState({
       homeContent: state=>state.home.homeContent,
-      homeDetail: state=>state.home.homeDetail,
       isLoading: state=>state.home.isLoading
     })
   },
@@ -52,7 +49,7 @@ export default {
   },
    methods:{
      test(){
-       console.log(this.homeContent);
+      //  console.log(this.homeContent);
      }
 
   },

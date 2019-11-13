@@ -1,5 +1,5 @@
 <template>
-  <div class="room_item">
+  <div class="room_item" @click="go_detail(data.id)">
     <div class="img">
       <img v-lazy="data.picture" />
       <span class="icon-like iconfont icon-xin"></span>
@@ -19,6 +19,11 @@ export default {
       required: true
     }
   },
+  methods:{
+    go_detail(id){      
+      this.$router.push(`home/detail/${id}`);
+    }
+  }
 }
 </script>
 

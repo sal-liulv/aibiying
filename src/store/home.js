@@ -55,10 +55,23 @@ const actions = {
         }))
       }
     })
-    // console.log(homeContent);
-
     context.commit('setHomeContent', homeContent);
   },
+
+  async requestHomeDetail(context,id){
+    context.commit('setLoading',true);  
+    const {data:result }= await http.get(api.HOME_DETAIL,{id:id});
+    let res = result.indexOf('campaignEntryText');
+    res = JSON.parse(result.substring(res - 2,result.length - 15));
+    context.commit('setHomeDetail',res);
+    context.commit('setLoading',false);
+    
+    
+
+
+    
+  }
+
 
 
 
