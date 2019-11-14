@@ -6,7 +6,7 @@
     <div class="content">
       <h1 class="login-title" v-if="changeTitle">手机动态密码登录</h1>
       <h1 class="login-title" v-else>账号密码登录</h1>
-      <p class="login-words" v-if="changeWord">已经注册的手机号直接获取验证码登录，未注册的需要进行注册</p>
+      <p class="login-words" v-if="changeWord">已经注册的手机号直接获取验证码登录，未注册的会自动进行注册</p>
       <p class="login-words" v-else>使用已注册的手机号登录</p>
       <p class="login-tel">手机号码</p>
       <div class="login-telNumber login-con">
@@ -32,9 +32,11 @@
         </div>
       </div>
 
-      <div class="getCode-btn" @click="getCodeAction" ref="getCodeBtn">{{tip}}</div>
-      <span class="type-one" v-if="changeType" @click="changeAction">使用账号密码登录</span>
-      <span class="type-one" v-else @click="changeAction">手机动态密码登录</span>
+      <div class="getCode-btn" @click="getCodeAction" v-if="isShow">获取验证码</div>
+      <div class="getCode-btn" v-else>登录</div>
+
+      <span class="type-one" v-if="changeType" @click="changeAction1">使用账号密码登录</span>
+      <span class="type-one" v-else @click="changeAction2">手机动态密码登录</span>
       <div class="foot">
         <div class="type-two">或使用微信登录</div>
         <div class="wechat">
@@ -56,15 +58,26 @@ export default {
       changeType: true,
       showCode: false,
       loginAnimate: false,
-      showPwd:true
+      showPwd: true,
+      isShow: true
     };
   },
   methods: {
     close() {
       this.$center.$emit("toggleLogin", false);
     },
-    changeAction() {
-      this.loginAnimate = true;
+    changeAction1() {
+      // this.loginAnimate = true;
+      this.isShow = false;
+      this.loginMethod = !this.loginMethod;
+      this.changeTitle = !this.changeTitle;
+      this.changeWord = !this.changeWord;
+      this.changeDefaul = !this.changeDefaul;
+      this.changeType = !this.changeType;
+    },
+    changeAction2() {
+      // this.loginAnimate = true;
+      this.isShow = true;
       this.loginMethod = !this.loginMethod;
       this.changeTitle = !this.changeTitle;
       this.changeWord = !this.changeWord;
@@ -72,21 +85,16 @@ export default {
       this.changeType = !this.changeType;
     },
     getCodeAction() {
-      this.showCode = !this.showCode;
-      this.$refs.getCodeBtn.innerText = "登录";
+      this.showCode = true;
+      this.isShow = !this.isShow;
     },
-    showPassword(){
+    showPassword() {
       this.showPwd = !this.showPwd;
-      if(this.showPwd){
-        this.$refs.pwd.type = 'password';
-      }else{
-        this.$refs.pwd.type = 'text';
+      if (this.showPwd) {
+        this.$refs.pwd.type = "password";
+      } else {
+        this.$refs.pwd.type = "text";
       }
-    }
-  },
-  computed: {
-    tip() {
-      return this.loginMethod ? "获取验证码" : "密码登录";
     }
   }
 };
@@ -96,6 +104,7 @@ export default {
 .content {
   position: absolute;
   top: 180px;
+  overflow: auto;
   .login-title {
     font-weight: bold;
     font-size: 103px;
@@ -142,7 +151,7 @@ export default {
       border: none;
       font-size: 50px;
     }
-    .icon-yanjing-bi{
+    .icon-yanjing-bi {
       position: absolute;
       font-size: 60px;
     }
@@ -164,54 +173,53 @@ export default {
     font-size: 48px;
     color: #008489;
   }
-  .type-two {
-    font-size: 48px;
-    color: #484848;
-    margin: 60px auto 75px auto;
-    text-align: center;
-    position: relative;
-    // display: flex;
-    // justify-content: space-around;
-  }
-  .type-two::before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 70px;
-    top: 20px;
-    background: #008489;
-    width: 200px;
-    height: 2px;
-  }
-  .type-two::after {
-    content: "";
-    position: absolute;
-    right: 70px;
-    top: 20px;
-    display: block;
-    background: #008489;
-    width: 200px;
-    height: 2px;
-  }
-  .wechat {
-    width: 164px;
-    height: 164px;
-    border: 2px solid #1bad19;
-    margin: 0 auto;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 164px;
-    .icon-weixin {
-      font-size: 68px;
-      color: #1bad19;
-    }
-  }
-  .foot{
+
+  .foot {
     width: 100%;
-    position: fixed;
+    position: relative;
     left: 50%;
-    bottom: 50px;
+    top: 20px;
     transform: translateX(-50%);
+    .type-two {
+      font-size: 48px;
+      color: #484848;
+      margin: 60px auto 75px auto;
+      text-align: center;
+      position: relative;
+    }
+    .type-two::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 70px;
+      top: 20px;
+      background: #008489;
+      width: 200px;
+      height: 2px;
+    }
+    .type-two::after {
+      content: "";
+      position: absolute;
+      right: 70px;
+      top: 20px;
+      display: block;
+      background: #008489;
+      width: 200px;
+      height: 2px;
+    }
+    .wechat {
+      width: 164px;
+      height: 164px;
+      border: 2px solid #1bad19;
+      margin: 0 auto;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 164px;
+      .icon-weixin {
+        font-size: 68px;
+        color: #1bad19;
+      }
+    }
   }
 }
 </style>

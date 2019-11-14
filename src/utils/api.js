@@ -22,5 +22,6 @@ const LOGIN_API = '/api/user/login';
 
 export default {
   HOME_LIST,
-  HOME_DETAIL
+  HOME_DETAIL,
+  LOGIN_API
 }

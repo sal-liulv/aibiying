@@ -3,7 +3,7 @@
     <h1 class="like-title">心愿单</h1>
     <p class="like-words">登录爱彼迎，查看你的心仪房源、体验与故事。</p>
     <div class="like-img">
-        <img src="/images/like-bg.jpg" alt="">
+        <img src="/img/like-bg.jpg" alt="">
     </div>
     <div class="login-btn" @click="loginAction">登录</div>
 </div>
@@ -37,7 +37,7 @@ export default {
 }
 .like-img{
     width: 100%;
-    height: 840px;
+    height: 740px;
     img{
         width: 100%;
         height: 100%;

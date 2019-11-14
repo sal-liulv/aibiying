@@ -3,7 +3,7 @@
     <h1 class="order-title">订单</h1>
     <p class="order-words">登录爱彼迎，查看你在全国各地的住宿订单。</p>
     <div class="order-img">
-        <img src="/images/order-bg.jpg" alt="">
+        <img src="/img/order-bg.jpg" alt="">
     </div>
     <div class="login-btn"  @click="loginAction">登录</div>
 </div>
