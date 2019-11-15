@@ -6,6 +6,7 @@ import plugin from './plugin'
 import 'lib-flexible/flexible'
 
 
+
 import './style/common.scss'
 Vue.config.productionTip = false
 

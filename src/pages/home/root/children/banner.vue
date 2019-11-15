@@ -2,7 +2,6 @@
   <div class="banner">
     <van-swipe :autoplay="3000"  :show-indicators="false" indicator-color="white" class="swiper">
       <van-swipe-item class="item" v-for="item in imgs" :key="item.id">
-
         <div class="title">
           <div >{{item.small_title}}</div>
           <div >{{item.big_title}}</div>
@@ -10,6 +9,7 @@
         <img v-lazy="item.url" />
       </van-swipe-item>
     </van-swipe>
+    <span></span>
   </div>
 </template>
 

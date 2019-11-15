@@ -8,7 +8,7 @@
       <rooms v-for="(items,index) in homeContent" :key="index" :data="items"/>
     </app-scroll>
   </div>
-
+  
     <!-- 子页面 -->
   <transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
   <router-view></router-view>

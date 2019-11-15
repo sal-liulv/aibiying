@@ -1,12 +1,12 @@
 <template>
-  <div class="room_item" @click="go_detail(data.id)">
+  <div class="room_item" @click="go_detail(data.id,data.city,data)">
     <div class="img">
       <img v-lazy="data.picture" />
       <span class="icon-like iconfont icon-xin"></span>
     </div>
     <div class="type"><span>{{data.type}}</span>·<span>{{data.city}}</span></div>
     <div class="name">{{data.title}}</div>
-    <div class="money"><span>￥594</span> <span>￥600/晚</span></div>
+    <div class="money"><span>{{data.prince_now}}</span><span>{{ data.prince_ago ? data.prince_ago.amount_formatted : '' }}</span><span>/晚</span></div>
   </div>
 </template>
 
@@ -19,9 +19,13 @@ export default {
       required: true
     }
   },
+  
   methods:{
-    go_detail(id){      
-      this.$router.push(`home/detail/${id}`);
+    go_detail(id,city,people_img){
+      this.$router.push(`home/detail/${id}/${city}`);
+      this.$store.commit('home/setPeople_img',this.data.people_img);
+      this.$store.commit('home/setDevice',this.data.device);
+      this.$store.commit('home/setPrice',[this.data.prince_now, this.data.prince_ago ? this.data.prince_ago.amount_formatted : ''] );
     }
   }
 }

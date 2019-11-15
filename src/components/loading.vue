@@ -3,6 +3,7 @@
   <div class="loading">
     <van-loading class="center" :vertical="row" color="#47A6AA" size="40px">{{titles}}</van-loading>
   </div>
+  <p class="header" v-if="back"><span class="iconfont icon-back" @click="backAction"></span></p>
 </div>
 </template>
 
@@ -10,13 +11,18 @@
 import { Loading } from 'vant';
 export default {
   name: 'loading',
-  props:['titles'],
+  props:['titles','back'],
   components: {
     [Loading.name]: Loading
   },
   data(){
     return{
       row:false,
+    }
+  },
+  methods:{
+    backAction(){
+      this.$router.back();
     }
   }
 }
@@ -26,10 +32,11 @@ export default {
 .loading-wrap{
   width: 100%;
   position: fixed;
-  top: 0;
+  top: 0px;
   left: 0;
   bottom: 49px;
   z-index: 300;
+  background: white;
   .loading{
     width: 250px;
     height: 250px;
@@ -55,6 +62,22 @@ export default {
         
       }
       
+    }
+  }
+  .header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 188px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span{
+      padding: 0 70px;
+      color: #666;
+      font-size: 60px;
+      font-weight: bold;
     }
   }
 
