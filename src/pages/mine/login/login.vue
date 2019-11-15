@@ -11,10 +11,10 @@
       <p class="login-tel">手机号码</p>
       <div class="login-telNumber login-con">
         <div class="telDefaul" v-show="changeDefaul">+86</div>
-        <input type="text" />
+        <input type="tel" v-model="tel"/>
       </div>
 
-      <div v-if="loginMethod">
+      <div v-if="isShowCode">
         <div v-show="showCode">
           <p class="login-tel">验证码</p>
           <div class="login-pwd login-con">
@@ -26,14 +26,14 @@
       <div v-else>
         <p class="login-tel">密码</p>
         <div class="login-code login-con">
-          <input type="password" ref="pwd" />
+          <input type="password" ref="pwd" v-model="psd"/>
           <span @click="showPassword" class="iconfont icon-yanjing-bi" v-if="showPwd"></span>
           <span @click="showPassword" class="iconfont icon-yanjing-bihe" v-else></span>
         </div>
       </div>
 
       <div class="getCode-btn" @click="getCodeAction" v-if="isShow">获取验证码</div>
-      <div class="getCode-btn" v-else>登录</div>
+      <div class="getCode-btn" @click="loginAction" v-else>登录</div>
 
       <span class="type-one" v-if="changeType" @click="changeAction1">使用账号密码登录</span>
       <span class="type-one" v-else @click="changeAction2">手机动态密码登录</span>
@@ -48,10 +48,13 @@
 </template>
 
 <script>
+import mineService from '../../../services/mineService';
+const PASSWORD_METHOD = true;
 export default {
   data() {
     return {
-      loginMethod: true,
+      loginMethod: PASSWORD_METHOD,
+      isShowCode:true,
       changeTitle: true,
       changeWord: true,
       changeDefaul: true,
@@ -59,7 +62,9 @@ export default {
       showCode: false,
       loginAnimate: false,
       showPwd: true,
-      isShow: true
+      isShow: true,
+      tel:'',
+      psd:''
     };
   },
   methods: {
@@ -69,7 +74,7 @@ export default {
     changeAction1() {
       // this.loginAnimate = true;
       this.isShow = false;
-      this.loginMethod = !this.loginMethod;
+      this.isShowCode = !this.isShowCode;
       this.changeTitle = !this.changeTitle;
       this.changeWord = !this.changeWord;
       this.changeDefaul = !this.changeDefaul;
@@ -78,7 +83,7 @@ export default {
     changeAction2() {
       // this.loginAnimate = true;
       this.isShow = true;
-      this.loginMethod = !this.loginMethod;
+      this.isShowCode = !this.isShowCode;
       this.changeTitle = !this.changeTitle;
       this.changeWord = !this.changeWord;
       this.changeDefaul = !this.changeDefaul;
@@ -94,6 +99,28 @@ export default {
         this.$refs.pwd.type = "password";
       } else {
         this.$refs.pwd.type = "text";
+      }
+    },
+    //登录事件
+    async loginAction(){
+      //密码登录
+      if(this.loginMethod){
+        if(!this.tel||!this.psd){
+          this.$Toast.fail('输入不能为空！');
+        }else{
+          let error = await mineService.requestLoginByPassword(this.tel,this.psd);
+          console.log(error);
+          if(error){
+            console.log(error);
+            this.$Toast(error);
+          }else{
+            this.$toast.success('登录成功');
+            localStorage.setItem('user',this.tel);
+            this.close();
+            // this.$store.commit('setIsLogin',true);
+            this.$store.dispatch('handleLoginAction',true);
+          }
+        }
       }
     }
   }
@@ -220,6 +247,10 @@ export default {
         color: #1bad19;
       }
     }
+  }
+  .van-toast__text{
+    width:500px;
+    height: 500px;
   }
 }
 </style>

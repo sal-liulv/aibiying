@@ -20,8 +20,21 @@ post
 */
 const LOGIN_API = '/api/user/login';
 
+/*
+检查登录
+参数：无
+*/
+const CHECK_LOGIN = '/api/user/check_login'
+
+/*
+退出登录
+参数：无
+*/
+const LOGOUT_API = '/api/user/logout'
 export default {
   HOME_LIST,
   HOME_DETAIL,
-  LOGIN_API
+  LOGIN_API,
+  CHECK_LOGIN,
+  LOGOUT_API
 }

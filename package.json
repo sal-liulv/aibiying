@@ -23,6 +23,7 @@
     "@vue/cli-plugin-vuex": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "babel-plugin-import": "^1.12.2",
+    "http-proxy-middleware": "^0.20.0",
     "postcss-pxtorem": "^4.0.1",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
