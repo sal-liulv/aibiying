@@ -6,19 +6,19 @@
     <div class="content">
       <h1 class="login-title" v-if="changeTitle">手机动态密码登录</h1>
       <h1 class="login-title" v-else>账号密码登录</h1>
-      <p class="login-words" v-if="changeWord">已经注册的手机号直接获取验证码登录，未注册的需要进行注册</p>
+      <p class="login-words" v-if="changeWord">已经注册的手机号直接获取验证码登录，未注册的会自动进行注册</p>
       <p class="login-words" v-else>使用已注册的手机号登录</p>
       <p class="login-tel">手机号码</p>
       <div class="login-telNumber login-con">
         <div class="telDefaul" v-show="changeDefaul">+86</div>
-        <input type="text" />
+        <input type="tel" v-model="tel"/>
       </div>
 
-      <div v-if="loginMethod">
+      <div v-if="isShowCode">
         <div v-show="showCode">
           <p class="login-tel">验证码</p>
           <div class="login-pwd login-con">
-            <input type="text" />
+            <input type="text" v-model="code"/>
           </div>
         </div>
       </div>
@@ -26,15 +26,17 @@
       <div v-else>
         <p class="login-tel">密码</p>
         <div class="login-code login-con">
-          <input type="password" ref="pwd" />
+          <input type="password" ref="pwd" v-model="psd" />
           <span @click="showPassword" class="iconfont icon-yanjing-bi" v-if="showPwd"></span>
           <span @click="showPassword" class="iconfont icon-yanjing-bihe" v-else></span>
         </div>
       </div>
 
-      <div class="getCode-btn" @click="getCodeAction" ref="getCodeBtn">{{tip}}</div>
-      <span class="type-one" v-if="changeType" @click="changeAction">使用账号密码登录</span>
-      <span class="type-one" v-else @click="changeAction">手机动态密码登录</span>
+      <div class="getCode-btn" @click="getCodeAction" v-if="isShow">获取验证码</div>
+      <div class="getCode-btn" @click="loginAction" v-else>登录</div>
+
+      <span class="type-one" v-if="changeType" @click="changeAction1">使用账号密码登录</span>
+      <span class="type-one" v-else @click="changeAction2">手机动态密码登录</span>
       <div class="foot">
         <div class="type-two">或使用微信登录</div>
         <div class="wechat">
@@ -46,47 +48,109 @@
 </template>
 
 <script>
+import mineService from '../../../services/mineService';
+const PASSWORD_METHOD = true;
+const PHONE_CODE_METHOD = false;
 export default {
   data() {
     return {
-      loginMethod: true,
+      loginMethod: PASSWORD_METHOD,
+      isShowCode:true,
       changeTitle: true,
       changeWord: true,
       changeDefaul: true,
       changeType: true,
       showCode: false,
       loginAnimate: false,
-      showPwd:true
+      showPwd: true,
+      isShow: true,
+      tel:'',
+      psd:'',
+      code:'',
+      getCode:''
     };
   },
   methods: {
     close() {
       this.$center.$emit("toggleLogin", false);
     },
-    changeAction() {
-      this.loginAnimate = true;
-      this.loginMethod = !this.loginMethod;
+    changeAction1() {
+      this.isShow = false;
+      this.isShowCode = !this.isShowCode;
       this.changeTitle = !this.changeTitle;
       this.changeWord = !this.changeWord;
       this.changeDefaul = !this.changeDefaul;
       this.changeType = !this.changeType;
     },
-    getCodeAction() {
-      this.showCode = !this.showCode;
-      this.$refs.getCodeBtn.innerText = "登录";
+    changeAction2() {
+      this.isShow = true;
+      this.isShowCode = !this.isShowCode;
+      this.changeTitle = !this.changeTitle;
+      this.changeWord = !this.changeWord;
+      this.changeDefaul = !this.changeDefaul;
+      this.changeType = !this.changeType;
     },
-    showPassword(){
-      this.showPwd = !this.showPwd;
-      if(this.showPwd){
-        this.$refs.pwd.type = 'password';
+    async getCodeAction() {
+      this.showCode = true;
+      this.isShow = !this.isShow;
+      this.loginMethod = false;
+      let result = await mineService.requestSendCode(this.tel);
+      console.log(result);
+      if(result){
+        this.getCode = result;
+        console.log(this.getCode);
+        // let num = 60;
+        
       }else{
-        this.$refs.pwd.type = 'text';
+        this.$Toast('发送失败，请重试！');
       }
-    }
-  },
-  computed: {
-    tip() {
-      return this.loginMethod ? "获取验证码" : "密码登录";
+    },
+    showPassword() {
+      this.showPwd = !this.showPwd;
+      if (this.showPwd) {
+        this.$refs.pwd.type = "password";
+      } else {
+        this.$refs.pwd.type = "text";
+      }
+    },
+    //登录事件
+    async loginAction(){
+      //密码登录
+      if(this.loginMethod){
+        if(!this.tel||!this.psd){
+          this.$Toast.fail('输入不能为空！');
+        }else{
+          let error = await mineService.requestLoginByPassword(this.tel,this.psd);
+          if(error){
+            this.$Toast(error);
+          }else{
+            this.$toast.success('登录成功');
+            window.location.reload();
+            localStorage.setItem('user',this.tel);
+            this.close();
+            this.$store.dispatch('handleLoginAction',true);
+          }
+        }
+      }else{
+        //验证码登录
+        if(this.code == this.getCode){
+          //登录
+          let error = await mineService.requestLoginByCode(this.tel);
+          if(error){
+            this.$Toast(error);
+          }else{
+            //登录进去了
+            this.$toast.success('登录成功');
+            window.location.reload();
+            localStorage.setItem('user',this.tel);
+            this.close();
+            this.$store.dispatch('handleLoginAction',true);
+          }
+        }else{
+          //过期了
+          this.$Toast('验证码失效，请重新发送');
+        }
+      }
     }
   }
 };
@@ -96,6 +160,7 @@ export default {
 .content {
   position: absolute;
   top: 180px;
+  overflow: auto;
   .login-title {
     font-weight: bold;
     font-size: 103px;
@@ -142,7 +207,7 @@ export default {
       border: none;
       font-size: 50px;
     }
-    .icon-yanjing-bi{
+    .icon-yanjing-bi {
       position: absolute;
       font-size: 60px;
     }
@@ -164,54 +229,57 @@ export default {
     font-size: 48px;
     color: #008489;
   }
-  .type-two {
-    font-size: 48px;
-    color: #484848;
-    margin: 60px auto 75px auto;
-    text-align: center;
+
+  .foot {
+    width: 100%;
     position: relative;
-    // display: flex;
-    // justify-content: space-around;
-  }
-  .type-two::before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 70px;
+    left: 50%;
     top: 20px;
-    background: #008489;
-    width: 200px;
-    height: 2px;
-  }
-  .type-two::after {
-    content: "";
-    position: absolute;
-    right: 70px;
-    top: 20px;
-    display: block;
-    background: #008489;
-    width: 200px;
-    height: 2px;
-  }
-  .wechat {
-    width: 164px;
-    height: 164px;
-    border: 2px solid #1bad19;
-    margin: 0 auto;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 164px;
-    .icon-weixin {
-      font-size: 68px;
-      color: #1bad19;
+    transform: translateX(-50%);
+    .type-two {
+      font-size: 48px;
+      color: #484848;
+      margin: 60px auto 75px auto;
+      text-align: center;
+      position: relative;
+    }
+    .type-two::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 70px;
+      top: 20px;
+      background: #008489;
+      width: 200px;
+      height: 2px;
+    }
+    .type-two::after {
+      content: "";
+      position: absolute;
+      right: 70px;
+      top: 20px;
+      display: block;
+      background: #008489;
+      width: 200px;
+      height: 2px;
+    }
+    .wechat {
+      width: 164px;
+      height: 164px;
+      border: 2px solid #1bad19;
+      margin: 0 auto;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 164px;
+      .icon-weixin {
+        font-size: 68px;
+        color: #1bad19;
+      }
     }
   }
-  .foot{
-    width: 100%;
-    position: fixed;
-    left: 50%;
-    bottom: 50px;
-    transform: translateX(-50%);
+  .van-toast__text{
+    width:500px;
+    height: 500px;
   }
 }
 </style>

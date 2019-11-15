@@ -1,19 +1,26 @@
 <template>
 <div>
   <div class="page" id="mine">
-    <div class="head" @click="loginAction">
+    <div class="head" @click="editAction" v-if="isLogin">
+      <h1 class="my-title">{{this.userName}}</h1>
+      <div class="default-img">
+        <span class="iconfont icon-wode"></span>
+      </div>
+    </div>
+    <div class="head" @click="loginAction" v-else>
       <h1 class="my-title">注册/登录</h1>
       <div class="default-img">
         <span class="iconfont icon-wode"></span>
       </div>
     </div>
+    
     <ul class="my-list">
       <li class="list-item" @click="goTravel">
         <span class="li-left">行程</span>
         <span class="li-right iconfont icon-xingcheng"></span>
       </li>
-      <li class="list-item">
-        <span class="li-left">设置</span>
+      <li class="list-item" @click="logoutAction">
+        <span class="li-left" >退出登录</span>
         <span class="li-right iconfont icon-shezhi"></span>
       </li>
       <li class="list-item">
@@ -31,7 +38,12 @@
 </template>
 
 <script>
+import store from '../../../store'
+import mineService from '../../../services/mineService'
+import Vue from 'vue'
+import {mapState} from 'vuex'
 import Travel from "../travel/travel";
+let userName = localStorage.getItem('user');
 export default {
   components: {
     Travel
@@ -40,8 +52,14 @@ export default {
     return {
       showPages: false,
       pagesName: "Travel",
-      travelAnimate:true
+      travelAnimate:true,
+      userName
     };
+  },
+  computed:{
+    ...mapState({
+      isLogin:'isLogin'
+    })
   },
   created(){
       this.$center.$on('toggleTravel',(value)=>{
@@ -58,6 +76,13 @@ export default {
     loginAction() {
       this.$center.$emit("toggleLogin", true);
     },
+    async logoutAction(){
+      //发送退出请求
+      let result = await mineService.requestLogOut();
+      //派发登录状态为false
+      this.$store.dispatch('handleLoginAction',false);
+    },
+    editAction(){},
     goTravel() {
       this.showPages = true;
     }

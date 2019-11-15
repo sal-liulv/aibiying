@@ -8,7 +8,7 @@
       <p class="travel-words">开始规划您在爱彼迎上的第一次探险</p>
       <div class="discover-btn" @click="goHome">探索爱彼迎</div>
       <div class="travel-img">
-        <img src="/images/travel.png" alt="">
+        <img src="/img/travel.png" alt="">
       </div>
     </div>
   </div>
