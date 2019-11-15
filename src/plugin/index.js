@@ -1,4 +1,4 @@
-import { Icon, Toast, Lazyload } from 'vant'
+import { Icon, Toast, Lazyload} from 'vant'
 import AppScroll from '../components/app-scroll'
 import AppHeader from '../components/app-header'
 import Loading from '../components/loading'

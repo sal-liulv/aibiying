@@ -18,7 +18,7 @@
         <div v-show="showCode">
           <p class="login-tel">验证码</p>
           <div class="login-pwd login-con">
-            <input type="text" />
+            <input type="text" v-model="code"/>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
       <div v-else>
         <p class="login-tel">密码</p>
         <div class="login-code login-con">
-          <input type="password" ref="pwd" v-model="psd"/>
+          <input type="password" ref="pwd" v-model="psd" />
           <span @click="showPassword" class="iconfont icon-yanjing-bi" v-if="showPwd"></span>
           <span @click="showPassword" class="iconfont icon-yanjing-bihe" v-else></span>
         </div>
@@ -50,6 +50,7 @@
 <script>
 import mineService from '../../../services/mineService';
 const PASSWORD_METHOD = true;
+const PHONE_CODE_METHOD = false;
 export default {
   data() {
     return {
@@ -64,7 +65,9 @@ export default {
       showPwd: true,
       isShow: true,
       tel:'',
-      psd:''
+      psd:'',
+      code:'',
+      getCode:''
     };
   },
   methods: {
@@ -72,7 +75,6 @@ export default {
       this.$center.$emit("toggleLogin", false);
     },
     changeAction1() {
-      // this.loginAnimate = true;
       this.isShow = false;
       this.isShowCode = !this.isShowCode;
       this.changeTitle = !this.changeTitle;
@@ -81,7 +83,6 @@ export default {
       this.changeType = !this.changeType;
     },
     changeAction2() {
-      // this.loginAnimate = true;
       this.isShow = true;
       this.isShowCode = !this.isShowCode;
       this.changeTitle = !this.changeTitle;
@@ -89,9 +90,20 @@ export default {
       this.changeDefaul = !this.changeDefaul;
       this.changeType = !this.changeType;
     },
-    getCodeAction() {
+    async getCodeAction() {
       this.showCode = true;
       this.isShow = !this.isShow;
+      this.loginMethod = false;
+      let result = await mineService.requestSendCode(this.tel);
+      console.log(result);
+      if(result){
+        this.getCode = result;
+        console.log(this.getCode);
+        // let num = 60;
+        
+      }else{
+        this.$Toast('发送失败，请重试！');
+      }
     },
     showPassword() {
       this.showPwd = !this.showPwd;
@@ -109,17 +121,34 @@ export default {
           this.$Toast.fail('输入不能为空！');
         }else{
           let error = await mineService.requestLoginByPassword(this.tel,this.psd);
-          console.log(error);
           if(error){
-            console.log(error);
             this.$Toast(error);
           }else{
             this.$toast.success('登录成功');
+            window.location.reload();
             localStorage.setItem('user',this.tel);
             this.close();
-            // this.$store.commit('setIsLogin',true);
             this.$store.dispatch('handleLoginAction',true);
           }
+        }
+      }else{
+        //验证码登录
+        if(this.code == this.getCode){
+          //登录
+          let error = await mineService.requestLoginByCode(this.tel);
+          if(error){
+            this.$Toast(error);
+          }else{
+            //登录进去了
+            this.$toast.success('登录成功');
+            window.location.reload();
+            localStorage.setItem('user',this.tel);
+            this.close();
+            this.$store.dispatch('handleLoginAction',true);
+          }
+        }else{
+          //过期了
+          this.$Toast('验证码失效，请重新发送');
         }
       }
     }

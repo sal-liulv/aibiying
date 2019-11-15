@@ -14,6 +14,13 @@ const HOME_LIST = '/api/home/content';
 const HOME_DETAIL = '/api/home/detail';
 
 /*
+发送验证码
+method:get
+参数：tel
+*/
+const SEND_CODE_API = '/api/user/send_code';
+
+/*
 登录接口
 post
 参数：id
@@ -36,5 +43,6 @@ export default {
   HOME_DETAIL,
   LOGIN_API,
   CHECK_LOGIN,
-  LOGOUT_API
+  LOGOUT_API,
+  SEND_CODE_API
 }
