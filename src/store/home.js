@@ -3,6 +3,7 @@ import http from '../utils/Http';
 
 
 const state = {
+  main_isLoading:false,//首页的加载状态
   homeContent: [],//首页数据
   homeDetail: [],//房屋详情数据
   isLoading: false,//请求数据的状态
@@ -68,15 +69,18 @@ const mutations = {
   },
   setHomeLike(state,value){
     state.homeLike = value;
-    
-  }
+  },
+  main_setLoading(state,value){
+    state.main_isLoading = value;
+  },
+  
 };
 
 const actions = {
   // 请求首页列表数据
   async requestHomeContent(context){
     // 显示loading
-    // context.commit('setLoading', true);
+    context.commit('main_setLoading', true);
     // 发送请求
     const {data:result }= await http.get(api.HOME_LIST);
     const {explore_tabs} = result;
@@ -107,6 +111,7 @@ const actions = {
       }
     })
     context.commit('setHomeContent', homeContent);
+    context.commit('main_setLoading', false);
   },
 
   // 请求详情数据
@@ -132,7 +137,9 @@ const actions = {
   async requestHomeLike(context,value){
     const {data:result} = await http.get(api.HOME_LIKE,{id:value})
     let res = result.similar_listings;
-    let homeLike = res.map(list=>({
+    // console.log(res);
+    
+    let homeLike = (res instanceof Array) && res.map(list=>({
       id: list.listing.id,
       type:list.listing.space_type,
       city:list.listing.localized_city,

@@ -30,7 +30,7 @@ data(){
   return{
     scrollX_data:true
   }
-}
+},
 }
 </script>
 

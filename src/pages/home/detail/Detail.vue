@@ -2,10 +2,10 @@
 <div class="page-wrap"> 
   <div class="page subpage" id="detail" >
     <app-scroll class="scroll">
-      <banner :imgs="homeDetail.photos" />
+      <banner :city='city' :id='id' :homeDetail="homeDetail" />
       <Title :city="city" :text="homeDetail"/>
       <device />
-      <txt :txt="homeDetail.ugcDescription.original"/>
+      <txt :txt="homeDetail"/>
       <people-comment :homeComment="homeComment" />
       <like class="like" />
     </app-scroll>
@@ -19,7 +19,6 @@
   <loading :back="back" titles="加载中..." v-if="isLoading" />
 </div>
 </template>
-
 <script>
 import {mapState} from 'vuex';
 import banner from './children/banner';
@@ -69,10 +68,11 @@ export default {
       this.$store.dispatch('home/requestHomeComment',[id,offset,limit]);
     }
   },
-  beforeRouterUpdate(to,from,next){
-    console.log(to);
-    
-  }
+  watch: {
+    '$route' (to, from) {
+      console.log(to);
+    }
+}
 }
 
 </script>

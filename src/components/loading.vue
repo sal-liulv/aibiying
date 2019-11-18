@@ -34,7 +34,7 @@ export default {
   position: fixed;
   top: 0px;
   left: 0;
-  bottom: 49px;
+  bottom: 0px;
   z-index: 300;
   background: white;
   .loading{

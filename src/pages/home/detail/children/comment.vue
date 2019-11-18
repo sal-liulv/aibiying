@@ -34,13 +34,10 @@ computed:{
 },
 methods:{
   loader_comment(){
-    console.log(this.offset,this.$store.state.home.commentNum);
-    
     if (! (this.offset > this.$store.state.home.commentNum)) {
       this.$parent.$parent.comment(this.$parent.$parent.id,this.offset,4)
       this.showActive = true
     }else{
-      console.log('评论加载完毕');
       this.$store.commit('home/setLoaderComment','评论加载完毕');
     }
     this.offset += 4 ;

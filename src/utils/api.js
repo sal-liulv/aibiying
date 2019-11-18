@@ -19,12 +19,12 @@ const HOME_DETAIL = '/api/home/detail';
 */
 const HOME_COMMENT = '/api/home/comment'
 
-
 /*
 房间猜你喜欢接口
 参数：id
 */
 const HOME_LIKE = '/api/home/like'
+
 /* 发送验证码
 method:get
 参数：tel */
@@ -48,6 +48,31 @@ const CHECK_LOGIN = '/api/user/check_login'
 参数：无
 */
 const LOGOUT_API = '/api/user/logout'
+
+/* 
+添加收藏
+post
+参数：user_id  type  city  name  prince  (pic由后台获得)
+*/
+const LIKE_ADD = '/api/like/add'
+
+/* 
+查找收藏列表
+get
+参数：无 user_id
+*/
+const LIKE_FIND = '/api/like/find_by_user'
+
+/* 
+取消收藏
+get
+参数：无 user_id
+*/
+const LIKE_DELETE = '/api/like/delete_by_user'
+
+
+
+
 export default {
   HOME_LIST,
   HOME_DETAIL,
@@ -56,5 +81,11 @@ export default {
   LOGIN_API,
   CHECK_LOGIN,
   LOGOUT_API,
-  SEND_CODE_API
+  SEND_CODE_API,
+  LIKE_ADD,
+  LIKE_FIND,
+  LIKE_DELETE,
+
+
+
 }

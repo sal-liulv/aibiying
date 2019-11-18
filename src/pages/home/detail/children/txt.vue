@@ -2,10 +2,10 @@
   <div class="txt">
     <p class="title">详情</p>
     <div class="con">
-      <p class="item" :style="line">{{txt.neighborhood_overview}}</p>
-      <p v-show="show" class="item">{{txt.space}}</p>
-      <p v-show="show" class="item">{{txt.summary}}</p>
-      <p v-show="show" class="item">{{txt.transit}}</p>
+      <p class="item" :style="line">{{txt.ugcDescription.original.neighborhood_overview}}</p>
+      <p v-show="show" class="item">{{txt.ugcDescription.original.space}}</p>
+      <p v-show="show" class="item">{{txt.ugcDescription.original.summary}}</p>
+      <p v-show="show" class="item">{{txt.ugcDescription.original.transit}}</p>
     </div>
     <div class="look" @click="active">{{show_txt}}</div>
   </div>
