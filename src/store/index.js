@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import home from './home'
 import like from './like'
+import order from './order'
 import mineService, { requestCheckLogin } from '../services/mineService'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: (localStorage.getItem('isLogin')==='true'?true:false)
+    // isLogin: (localStorage.getItem('isLogin')==='true'?true:false),
+    isLogin:'',
 
   },
   mutations: {
@@ -21,7 +23,7 @@ export default new Vuex.Store({
       //修改数据
       context.commit('setIsLogin',value);
       //保存登录状态
-      localStorage.setItem('isLogin',value);
+      // localStorage.setItem('isLogin',value);
     },
     async checkLoginAction(context){
       //访问后台的登录状态是否过期
@@ -38,5 +40,6 @@ export default new Vuex.Store({
   modules: {
     home,
     like,
+    order,
   }
 })

@@ -44,7 +44,6 @@ const actions = {
     let id = JSON.stringify(value[0])
     const {data:result }= await http.get(api.LIKE_DELETE,{city_id:id});
     console.log('删除的id',value[0]);
-    
     context.commit('setTag',value[1]);
   },
 

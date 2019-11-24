@@ -31,11 +31,11 @@ html,body, #app{
 
 @keyframes slideInRight {
   0% {
-    transform: translate3d(100%, 0, 0);
-    visibility: visible;
+    transform: translateX(100%);
+    // visibility: visible;
   }
   to {
-    transform: translateZ(0);
+    transform: translate3d(0);
   }
 }
 @keyframes slideOutRight {
@@ -185,4 +185,27 @@ html,body, #app{
   font-size: 14px;
   color: #1989fa;
   padding: 10px;
+}
+.m-calendar .m-months-container .m-months-wrapper .m-months .m-row .m-day .m-during{
+  background: #078F92;
+}
+.m-calendar .m-toolbar .m-month-selector .m-next-btn, .m-calendar .m-toolbar .m-year-selector .m-next-btn{
+  background-image: url('/img/right.png');
+}
+.m-calendar .m-toolbar .m-month-selector .m-prev-btn, .m-calendar .m-toolbar .m-year-selector .m-prev-btn{
+  background-image: url('/img/right.png');
+  transform: rotateY(180deg);
+  
+}
+.m-calendar .m-months-container .m-months-wrapper .m-months .m-row .m-day .m-disable {
+  text-decoration: none;
+}
+.m-calendar .m-months-container .m-months-wrapper .m-months .m-row:before{
+  height: 0;       
+}
+.m-popover .m-popover-container{
+  height: 342px;
+}
+.m-calendar .m-week-header{
+  padding: 20px 0;
 }

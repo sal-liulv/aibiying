@@ -70,6 +70,19 @@ get
 */
 const LIKE_DELETE = '/api/like/delete_by_user'
 
+/* 
+添加订单
+post
+参数：user_id  id name money pic starData endData allData  (pic由后台获得)
+*/
+const ORDER_ADD = '/api/order/add'
+
+/* 
+查找收藏列表
+get
+参数：无 user_id
+*/
+const ORDER_FIND = '/api/order/find_by_user'
 
 
 
@@ -85,7 +98,7 @@ export default {
   LIKE_ADD,
   LIKE_FIND,
   LIKE_DELETE,
-
-
-
+  ORDER_ADD,
+  ORDER_FIND,
+  
 }

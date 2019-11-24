@@ -1,5 +1,5 @@
 <template>
-  <div class="i-tem">
+  <div class="i-tem" @click="go_detail(id,data.city)">
     <!-- <div class="img"><img :src="data." alt=""><span class=" iconfont icon-tubiaoshixinxin "></span></div> -->
 
     <van-swipe :autoplay="3000"  :show-indicators="false" indicator-color="white" class="img">
@@ -12,7 +12,7 @@
     <div class="name">{{data.name}}</div>
     <div class="money"><span>{{data.prince}}</span><span>/晚</span></div>
 
-    <span class="icon-like iconfont icon-tubiaoshixinxin" :class="{show:show}"></span>
+    <span class="icon-like iconfont icon-tubiaoshixinxin" :class="{show:show}" @click.stop="likeAction"></span>
 
   </div>
 </template>
@@ -21,6 +21,8 @@
 import Vue from 'vue';
 import { Swipe, SwipeItem } from 'vant';
 import {requestDetailList} from '../../../../services/detailService'
+import {mapState} from 'vuex'
+
 export default {
 components:{
   [SwipeItem.name]:SwipeItem,
@@ -32,19 +34,45 @@ data(){
   return{
     homeDetail:'',
     show:true,
+    index:'',//判断是否加上红心的依据
   }
+},
+computed: {
+  ...mapState({
+    listId: state=>state.like.listId,
+    tag: state=>state.like.tag,
+  }),
+  id(){
+    return parseInt(this.data.city_id)
+  }
+  
 },
 methods:{
   async detailListData(id){
     const result =  await requestDetailList(id);
     this.homeDetail = result;
+  },
+  likeAction(){//点击进行收藏和取消收藏
+    this.$store.dispatch('like/likeDelete',[this.id,this.id+1])
+  },
+  go_detail(id,city){
+    this.$router.push(`/home/detail/${id}/${city}`)
   }
 },
-
 created(){
-  this.detailListData(this.data.city_id);
-  
-}
+  this.detailListData(this.data.city_id);//加载详情页的数据
+  // this.id = parseInt(this.data.city_id);
+},
+watch:{
+  tag:function (newVal, oldVal) {
+    if (newVal != 0) {//只有在操作add和delete的时候才进入
+      if (newVal == (this.id+1)) {//delete
+        console.log('delete成功');
+        this.$store.dispatch('like/likeFind')//删除了就马上消失
+      }
+    }
+  }
+},
 
 }
 </script>

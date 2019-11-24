@@ -6,11 +6,12 @@ export default   {
       path: 'detail/:id/:city',
       props: true,
       component: ()=>import('../pages/home/detail/Detail'),
-      children: [
-        {
-          path: 'confirm',
-          component: ()=>import('../pages/home/confirm/Confirm')
-        }
+        children: [
+          {
+            name: 'confirm',
+            path: 'confirm',
+            component: ()=>import('../pages/home/confirm/Confirm'),
+          }
       ]
     }
   ]

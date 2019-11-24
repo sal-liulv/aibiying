@@ -87,12 +87,12 @@ export default {
       }
     },
     freshLike(){
-      this.checkLike(this.listId,this.data.id)
+      this.checkLike(this.listId,this.data.id)//详情页数据变换重新渲染数据
     }
   },
   created(){
     this.checkLike(this.listId,this.data.id)
-    this.$center.$on('freshLike',this.freshLike)
+    this.$center.$on('freshLike',this.freshLike)//监听详情页的数据变换
   },
 
   watch:{

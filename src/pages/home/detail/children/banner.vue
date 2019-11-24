@@ -89,7 +89,7 @@ export default {
     this.my_id = parseInt(this.id)
     this.checkLike(this.listId,this.my_id);
   },
-   watch:{
+   watch:{//主要是监听添加或者删除事件的完成
     tag:function (newVal, oldVal) {
       if (newVal != 0) {//只有在操作add和delete的时候才进入
         if (newVal == this.my_id ) {//add

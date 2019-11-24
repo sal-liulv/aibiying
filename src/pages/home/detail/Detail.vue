@@ -12,10 +12,13 @@
 
     <div class="buy">
       <p class="money"><span>{{this.$store.state.home.prince_now}}</span> <span>{{this.$store.state.home.prince_ago}}</span><span>/ 晚</span></p>
-      <p class="btn">申请预定</p>
+      <p class="btn" @click="go_confirm">申请预定</p>
     </div>
   </div>
 
+  <transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
+    <router-view></router-view>
+  </transition>
   <loading :back="back" titles="加载中..." v-if="isLoading" />
 </div>
 </template>
@@ -54,23 +57,34 @@ export default {
     })
   },
   created(){
-    // 请求详情数据
-    this.$store.dispatch('home/requestHomeDetail',this.id);
-    // 请求评论之前先删除评论
-    this.$store.commit('home/deleteComment');
-    // 获取评论数据
-    this.comment(this.id,0,1)
-    // 获取猜你喜欢
-    this.$store.dispatch('home/requestHomeLike',this.id)
+    this.innitData();
   },
   methods:{
+    innitData(){
+      // 请求详情数据
+      this.$store.dispatch('home/requestHomeDetail',this.id);
+      // 请求评论之前先删除评论
+      this.$store.commit('home/deleteComment');
+      // 获取评论数据
+      this.comment(this.id,0,1)
+      // 获取猜你喜欢
+      this.$store.dispatch('home/requestHomeLike',this.id)
+    },
     comment(id,offset,limit){
       this.$store.dispatch('home/requestHomeComment',[id,offset,limit]);
+    },
+    go_confirm(){
+      this.$router.push({name:'confirm'})
     }
   },
   watch: {
-    '$route' (to, from) {
+    '$route.params.id' (to, from) {
       console.log(to);
+      if (to) {
+        this.innitData();
+      }
+      
+      
     }
 }
 }

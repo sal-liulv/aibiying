@@ -40,7 +40,8 @@ export default {
       }
       this.showCom = value;
       this.comName = 'Login';
-    })
+    });
+    this.$store.dispatch('checkLoginAction')
   }
 
 }
