@@ -20,7 +20,6 @@ const mutations = {
   },
   setTag(state,value){
     state.tag = value;
-    console.log('tag------------------------------',state.tag);
   },
 }
  
@@ -34,7 +33,6 @@ const actions = {
       prince:value[3],
       name:value[4],
     });
-    console.log('添加的id',value[2]);
     
     context.commit('setTag',value[5]);
   },
@@ -43,7 +41,6 @@ const actions = {
   async likeDelete(context,value){
     let id = JSON.stringify(value[0])
     const {data:result }= await http.get(api.LIKE_DELETE,{city_id:id});
-    console.log('删除的id',value[0]);
     context.commit('setTag',value[1]);
   },
 
@@ -51,9 +48,10 @@ const actions = {
   async likeFind(context,value){
     const {data:result}= await http.get(api.LIKE_FIND);
     let {data:res} = result;
-    let cityId = res.map(item=>item.city_id)
+    let cityId = res? res.map(item=>item.city_id) : [];
     context.commit('setLikeList',res);
     context.commit('setListId',cityId);
+    console.log(cityId);
     context.commit('setTag',0);
   },
 }

@@ -33,7 +33,7 @@ export default {
     ...mapState({
       listId: state=>state.like.listId,
       tag: state=>state.like.tag,
-
+      isLogin: "isLogin",
     })
   },
   methods:{
@@ -58,29 +58,28 @@ export default {
       }
     },
     likeAction(){
-      this.checkLike(this.listId,this.my_id)
-      if (this.index == -1) {
-        if (this.tag == 0) {//判断list是否更新
-          console.log('add',this.my_id);
-        
-          this.$store.dispatch('like/likeAdd',[
-            this.homeDetail.roomAndPropertyType,
-            this.city,
-            this.my_id,
-            this.$store.state.home.prince_now,
-            this.homeDetail.title,
-            this.my_id//判断当前点击的元素
-          ])
-        }else{
-          console.log('您操作太频繁，请稍后再试');
-        }
-      }else if(this.index == 1){
-        if (this.tag == 0) {//判断list是否更新
-          console.log('delete',this.my_id);
+      if (this.isLogin) {
+        this.checkLike(this.listId,this.my_id)
+        if (this.index == -1) {
+          if (this.tag == 0) {//判断list是否更新
+            this.$store.dispatch('like/likeAdd',[
+              this.homeDetail.roomAndPropertyType,
+              this.city,
+              this.my_id,
+              this.$store.state.home.prince_now,
+              this.homeDetail.title,
+              this.my_id//判断当前点击的元素
+            ])
+          }else{
+            console.log('您操作太频繁，请稍后再试');
+          }
+        }else if(this.index == 1){
+          if (this.tag == 0) {//判断list是否更新
 
-          this.$store.dispatch('like/likeDelete',[this.my_id,this.my_id+1])
-        }else{
-          console.log('您操作太频繁，请稍后再试');
+            this.$store.dispatch('like/likeDelete',[this.my_id,this.my_id+1])
+          }else{
+            console.log('您操作太频繁，请稍后再试');
+          }
         }
       }
     },
@@ -93,11 +92,9 @@ export default {
     tag:function (newVal, oldVal) {
       if (newVal != 0) {//只有在操作add和delete的时候才进入
         if (newVal == this.my_id ) {//add
-          console.log('add成功');
           this.show = true
           this.$store.dispatch('like/likeFind')
         }else if (newVal == (this.my_id+1)) {//delete
-          console.log('delete成功');
           this.show = false;
           this.$store.dispatch('like/likeFind')
         }else{

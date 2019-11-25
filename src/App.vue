@@ -43,7 +43,6 @@ export default {
     });
     this.$store.dispatch('checkLoginAction')
   }
-
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 <div class="page-wrap">
-  <div class="page" id="home" @click="test" >
+  <div class="page" id="home" >
     
     <app-scroll class="scroll">
       <banner />
@@ -49,11 +49,15 @@ export default {
     this.$store.dispatch('like/likeFind')//首次进入请求收藏的数据
   },
    methods:{
-     test(){
-      //  console.log(this.homeContent);
-     }
-
   },
+  watch:{
+    '$route.fullPath' (to, from) {
+      if (to == '/home') {
+        this.$store.dispatch('like/likeFind');
+      }
+    }
+  }
+
   
 }
 </script>

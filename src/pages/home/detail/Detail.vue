@@ -79,12 +79,9 @@ export default {
   },
   watch: {
     '$route.params.id' (to, from) {
-      console.log(to);
       if (to) {
         this.innitData();
       }
-      
-      
     }
 }
 }

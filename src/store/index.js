@@ -29,7 +29,6 @@ export default new Vuex.Store({
       //访问后台的登录状态是否过期
       let result  = await mineService.requestCheckLogin();
       //判断结果，设置和保存数据
-      console.log(result);
       if(result === 0){
         context.dispatch('handleLoginAction',true);
       }else{

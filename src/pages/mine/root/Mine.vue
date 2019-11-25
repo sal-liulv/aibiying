@@ -2,7 +2,7 @@
 <div>
   <div class="page" id="mine">
     <div class="head" @click="editAction" v-if="isLogin">
-      <h1 class="my-title">{{this.userName}}</h1>
+      <h1 class="my-title">{{userName}}</h1>
       <div class="default-img">
         <span class="iconfont icon-wode"></span>
       </div>
@@ -31,7 +31,7 @@
   </div>
     <!-- 子页面 -->
   <transition :enter-active-class="travelAnimate?'slideInRight':''" leave-active-class="slideOutRight">
-      <component v-if="showPages" :is="pagesName" />
+      <component v-if="showPages" v-model="showPages" :is="pagesName" />
   </transition>
 </div>
   
@@ -43,7 +43,7 @@ import mineService from '../../../services/mineService'
 import Vue from 'vue'
 import {mapState} from 'vuex'
 import Travel from "../travel/travel";
-let userName = localStorage.getItem('user');
+// let userName = localStorage.getItem('user');
 export default {
   components: {
     Travel
@@ -53,15 +53,17 @@ export default {
       showPages: false,
       pagesName: "Travel",
       travelAnimate:true,
-      userName
+      userName:'',
     };
   },
   computed:{
     ...mapState({
       isLogin:'isLogin'
-    })
+    }),
   },
   created(){
+      this.userName = localStorage.getItem('user');
+      console.log(this.userName);
       this.$center.$on('toggleTravel',(value)=>{
       if(this.showPages&&value){
         this.travelAnimate = false;

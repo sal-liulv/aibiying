@@ -37,7 +37,6 @@ const actions = {
   async findAdd(context,value){
     const {data:result }= await http.get(api.ORDER_FIND);
     let res = result.data;
-    console.log(res);
     context.commit('setOrderData',res)
   },
 }

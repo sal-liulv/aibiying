@@ -32,6 +32,7 @@ export default {
       // likeList: state=>state.like.likeList,
       listId: state=>state.like.listId,
       tag: state=>state.like.tag,
+      isLogin: "isLogin",
     })
   },
   methods:{
@@ -42,30 +43,29 @@ export default {
       this.$store.commit('home/setPrice',[this.data.prince_now, this.data.prince_ago ? this.data.prince_ago.amount_formatted : ''] );
     },
     likeAction(id){
-      this.id = id;
-      this.checkLike(this.listId,this.data.id);
-      if (this.index == -1) {
-        if (this.tag == 0) {//判断list是否更新
-          console.log(this.data.id);
-        
-          this.$store.dispatch('like/likeAdd',[
-            this.data.type,
-            this.data.city,
-            this.data.id,
-            this.data.prince_now,
-            this.data.title,
-            this.id//判断当前点击的元素
-          ])
-        }else{
-          console.log('您操作太频繁，请稍后再试');
-        }
-      }else if(this.index == 1){
-        if (this.tag == 0) {//判断list是否更新
-          console.log(this.data.id);
+      if (this.isLogin) {
+        this.id = id;
+        this.checkLike(this.listId,this.data.id);
+        if (this.index == -1) {
+          if (this.tag == 0) {//判断list是否更新
+            this.$store.dispatch('like/likeAdd',[
+              this.data.type,
+              this.data.city,
+              this.data.id,
+              this.data.prince_now,
+              this.data.title,
+              this.id//判断当前点击的元素
+            ])
+          }else{
+            console.log('您操作太频繁，请稍后再试');
+          }
+        }else if(this.index == 1){
+          if (this.tag == 0) {//判断list是否更新
 
-          this.$store.dispatch('like/likeDelete',[this.data.id,this.id+1])
-        }else{
-          console.log('您操作太频繁，请稍后再试');
+            this.$store.dispatch('like/likeDelete',[this.data.id,this.id+1])
+          }else{
+            console.log('您操作太频繁，请稍后再试');
+          }
         }
       }
     },
@@ -102,17 +102,25 @@ export default {
     tag:function (newVal, oldVal) {
       if (newVal != 0) {//只有在操作add和delete的时候才进入
         if (newVal == this.id ) {//add
-          console.log('add成功');
           this.show = true
           this.$store.dispatch('like/likeFind')
         }else if (newVal == (this.id+1)) {//delete
-          console.log('delete成功');
           this.show = false;
           this.$store.dispatch('like/likeFind')
         }else{
         }
       }
-    }
+    },
+    listId: function(vewVal,oldVal) {
+      if (this.listId.length == 0) {
+        this.show = false;
+      }
+    },
+    // '$route.fullPath' (to, from) {
+    //   if (to == '/home') {
+        
+    //   }
+    // }
   },
 }
 

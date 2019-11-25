@@ -95,10 +95,8 @@ export default {
       this.isShow = !this.isShow;
       this.loginMethod = false;
       let result = await mineService.requestSendCode(this.tel);
-      console.log(result);
       if(result){
         this.getCode = result;
-        console.log(this.getCode);
         // let num = 60;
         
       }else{
@@ -125,10 +123,10 @@ export default {
             this.$Toast(error);
           }else{
             this.$toast.success('登录成功');
-            window.location.reload();
             localStorage.setItem('user',this.tel);
-            this.close();
+            // this.close();
             this.$store.dispatch('handleLoginAction',true);
+            window.location.reload();
           }
         }
       }else{
@@ -141,10 +139,10 @@ export default {
           }else{
             //登录进去了
             this.$toast.success('登录成功');
-            window.location.reload();
             localStorage.setItem('user',this.tel);
             this.close();
             this.$store.dispatch('handleLoginAction',true);
+            window.location.reload();
           }
         }else{
           //过期了

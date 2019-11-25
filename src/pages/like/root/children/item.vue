@@ -20,8 +20,8 @@
 <script>
 import Vue from 'vue';
 import { Swipe, SwipeItem } from 'vant';
-import {requestDetailList} from '../../../../services/detailService'
 import {mapState} from 'vuex'
+import {requestDetailList} from '../../../../services/detailService'
 
 export default {
 components:{
@@ -67,7 +67,6 @@ watch:{
   tag:function (newVal, oldVal) {
     if (newVal != 0) {//只有在操作add和delete的时候才进入
       if (newVal == (this.id+1)) {//delete
-        console.log('delete成功');
         this.$store.dispatch('like/likeFind')//删除了就马上消失
       }
     }

@@ -39,7 +39,6 @@ const mutations = {
     state.device = value;
   },
   setPrice(state, value){
-    // console.log(value);
     state.prince_now = value[0];
     value[1] ?  state.prince_ago = value[1] : state.prince_ago = ''
   },
@@ -137,7 +136,6 @@ const actions = {
   async requestHomeLike(context,value){
     const {data:result} = await http.get(api.HOME_LIKE,{id:value})
     let res = result.similar_listings;
-    // console.log(res);
     
     let homeLike = (res instanceof Array) && res.map(list=>({
       id: list.listing.id,
